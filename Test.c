@@ -1,5 +1,7 @@
 #include<stdio.h>
 
+#define 100
+
 int main()
 {
     int n ;

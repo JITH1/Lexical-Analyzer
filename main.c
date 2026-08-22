@@ -15,14 +15,14 @@ int main(int input_count,char *input[])
         if(implement_lexical(&Line_Info))
         {
            printf(GREEN"\nLexical Analysis Completed...!\n"RESET);
+           print_lexical(&Line_Info);
         }
         else
         {
             printf(RED"\nLexical Implementation Failed...!\n\n"RESET);
             return FAILED ;
         }
-
-        return SUCCESS ;
+        
     }
     else
     {
@@ -31,4 +31,5 @@ int main(int input_count,char *input[])
     }
 
     return 0 ;
+
 }

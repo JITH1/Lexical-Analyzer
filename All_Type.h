@@ -10,8 +10,8 @@
 
 typedef struct
 {
-    char *token;
-    char *lexeme;
+    char token[100];
+    char lexeme[100];
     struct Line_data *link;
 
 }Line_data;
