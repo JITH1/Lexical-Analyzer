@@ -1,6 +1,7 @@
 #include<stdio.h>
 
-#define 100
+#define MAX 100
+#define SUM(a,b) 
 
 int main()
 {

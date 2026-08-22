@@ -62,11 +62,9 @@ Token_type preprocessor_token(Process_Line *Line_Info,char *str)
 {
     int i = strlen(str) , p = 0 , n = 0;
     
-    char buffer[100];
+    char buffer1[100] , buffer2[100];
 
     Line_data *node ; 
-
-    Allocate_node(Line_Info,&node);
     
     while(p<i)
     {
@@ -77,19 +75,39 @@ Token_type preprocessor_token(Process_Line *Line_Info,char *str)
         else
         {
             buffer[n] = '\0';
-            strcpy(node->token,buffer);
-            strcpy(node->lexeme,token[PREPROCESSOR]);
             n = 0;
-            buffer[n++] = str[p++];
+            break;
         }
 
     }
+
+    while(p<i)
+    {
+        if(str[p]!='\0')
+        {
+            buffer2[n++] = str[p++];
+        }
+        else
+        {
+            buffer2[n] = '\0' ;
+        }
+    }
     
-    Allocate_node(Line_Info,&node);
-    buffer[n] = '\0';
-    strcpy(node->token,buffer);
-    strcpy(node->lexeme,token[HEADER]);
+  /*  p = 0 , n = 0;
     
+    while(buffer2[p]!='\0')
+    {
+        while(buffer2[p]== ' ')
+        {
+            p++;
+        }  
+
+
+
+    }
+
+    */
+
     return SUCCESS ;
     
 }
