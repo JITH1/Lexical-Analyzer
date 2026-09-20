@@ -20,8 +20,8 @@ typedef enum
     SPECIAL_SYMBOL, // Separators/delimiters - (, ), {, }, [, ], ;, ,
     PREPROCESSOR ,  // Preprocessor directives - #include, #define
     COMMENT ,       // /* or // 
-    ERROR  ,         // Invalid lexical elements
-    HEADER           // eg : <stdio.h> 
+    ERROR  ,        // Invalid lexical elements
+    HEADER          // eg : <stdio.h> 
     
 }Token_type ;
 

@@ -6,23 +6,32 @@ const char *token[] = {"KEYWORD","IDENTIFIER","INTEGER","FLOAT","CHAR_CONSTANT",
 
 const char *keywords[] = {"auto","break","case","char","const","continue","default","do","double","else","enum","extern","float","for","goto","if","inline","int","long","register","restrict","return","short","signed","sizeof","static","struct","switch","typedef","union","unsigned","void","volatile","while","_Bool","_Complex","_Imaginary",NULL};
 
+
+Status Open_files(Process_Line *Line_Info)
+{
+    
+    Line_Info->fptr = fopen(Line_Info->Input_fname,"r");
+
+    if(!Line_Info->fptr)
+    {
+        printf(RED"\nCan't open file %s please check your directory...!\n"RESET,Line_Info->Input_fname);
+        return FAILED ; 
+    }
+
+    Line_Info->Line_Count = 0 ;
+
+    return SUCCESS ;
+
+}
+
 Status implement_lexical(Process_Line *Line_Info)
 {
-     Line_Info->fptr = fopen(Line_Info->Input_fname,"r");
-
-     if(!Line_Info->fptr)
-     {
-         printf(RED"\nCan't open file %s please check your directory...!\n"RESET,Line_Info->Input_fname);
-         return FAILED ; 
-     }
-
-     Line_Info->Line_Count = 0 ;
-
+     
      LINE S_t ;
 
      size_t n = sizeof(S_t.contents);
 
-     while(fgets(Line_Info->lines[Line_Info->Line_Count].contents,n,Line_Info->fptr) != NULL) 
+     while(fgets(Line_Info->lines[Line_Info->Line_Count].contents,n,Line_Info->fptr) != NULL)  // O(n)
      {
         if(Line_Info->lines[Line_Info->Line_Count].contents[0] == '\n')
         {
@@ -33,13 +42,21 @@ Status implement_lexical(Process_Line *Line_Info)
         
         Line_Info->lines[Line_Info->Line_Count].Head = NULL ;
 
-        unsigned int length = strlen(Line_Info->lines[Line_Info->Line_Count].contents) ;
+        size_t length = strlen(Line_Info->lines[Line_Info->Line_Count].contents) ;
 
         Line_Info->lines[Line_Info->Line_Count].contents[length-1] = '\0' ;
         
         char *line_string = Line_Info->lines[Line_Info->Line_Count].contents ;
+        
+        int pos = 0 ;
+
+        // Avoid spaces if present 
+        while((line_string[pos] == ' ') && (line_string[pos]!='\0'))  // O(n)
+        {
+            pos++;                                    
+        }
  
-        if(line_string[0] == '#')
+        if(line_string[pos] == '#')
         {
             if(preprocessor_token(Line_Info,line_string))
             {
@@ -60,53 +77,14 @@ Status implement_lexical(Process_Line *Line_Info)
 
 Token_type preprocessor_token(Process_Line *Line_Info,char *str)
 {
-    int i = strlen(str) , p = 0 , n = 0;
     
-    char buffer1[100] , buffer2[100];
+    char *p1 = str; 
+    char *p2 = str;
 
-    Line_data *node ; 
-    
-    while(p<i)
+    while( *p2 != '\0')
     {
-        if(str[p]!=' '&& str[p]!='<')
-        {
-           buffer[n++] = str[p++] ;
-        }
-        else
-        {
-            buffer[n] = '\0';
-            n = 0;
-            break;
-        }
-
+        
     }
-
-    while(p<i)
-    {
-        if(str[p]!='\0')
-        {
-            buffer2[n++] = str[p++];
-        }
-        else
-        {
-            buffer2[n] = '\0' ;
-        }
-    }
-    
-  /*  p = 0 , n = 0;
-    
-    while(buffer2[p]!='\0')
-    {
-        while(buffer2[p]== ' ')
-        {
-            p++;
-        }  
-
-
-
-    }
-
-    */
 
     return SUCCESS ;
     

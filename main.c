@@ -12,6 +12,12 @@ int main(int input_count,char *input[])
     {
         printf(GREEN"\nFile Validation Successfull...!\n"RESET);
 
+        if(!Open_files(&Line_Info))
+        {
+            printf(RED"\nLexical Implementation Failed...!\n\n"RESET);
+            return FAILED ;
+        }
+
         if(implement_lexical(&Line_Info))
         {
            printf(GREEN"\nLexical Analysis Completed...!\n"RESET);
