@@ -10,8 +10,8 @@
 
 typedef struct
 {
-    char token[100];
-    char lexeme[100];
+    char token[50];
+    char lexeme[50];
     struct Line_data *link;
 
 }Line_data;
@@ -31,6 +31,10 @@ typedef struct
     FILE *fptr ;
 
 }Process_Line ;
+
+#include "Flags.h"
+#include "Lexical.h"
+#include "Valid.h"
 
 
 #endif

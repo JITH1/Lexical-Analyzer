@@ -2,7 +2,7 @@
 #define LEXI_H
 
 extern const char *token[] ;
-extern const char *keywords[] ;
+extern const char *key[] ;
 
 Status implement_lexical(Process_Line *Line_Info);
 Status Open_files(Process_Line *Line_Info);

@@ -1,8 +1,4 @@
 #include "All_Type.h"
-#include "Flags.h"
-#include "Valid.h"
-#include "Lexical.h"
-
 
 int main(int input_count,char *input[])
 {

@@ -1,6 +1,4 @@
 #include "All_Type.h"
-#include "Flags.h"
-#include "Valid.h"
 
 Status Validate_Input_File(int input_count,char *input[],Process_Line *Line_Info)
 {
