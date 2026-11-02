@@ -22,9 +22,12 @@ void preprocessor_token(Process_Line *Line_Info,char *token)
     Line_data *temp ;
     Allocate_node(Line_Info,&temp);
 
-    while((token[i] != '\0') && (token[i] != '<' || token[i] != ' '))
+    while((token[i] != '\0') && (token[i] != ' '))
     {
+        if(token[i] != '<')
         buffer[j++] = token[i++];
+        else if(token[i] == '<')
+        break;
     }
 
     buffer[j] = '\0';
@@ -246,7 +249,7 @@ void tokanize_line(Process_Line *Line_Info,char *token)
                 buffer[j++] = token[i++];
             }
 
-            if(token[i] != '"')
+            if(token[i] == '"')
             {
                 strcpy(temp->token,tokens[STRING_LITERAL]);
                 strcpy(temp->lexeme,buffer);
