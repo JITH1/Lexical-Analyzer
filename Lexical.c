@@ -1,10 +1,5 @@
 #include "All_Type.h"
 
-const char *token[] = {"KEYWORD","IDENTIFIER","INTEGER","FLOAT","CHAR_CONSTANT","STRING_LITERAL","OPERATOR","SPECIAL_SYMBOL","PREPROCESSOR","COMMENT","ERROR","HEADER",NULL};
-
-const char *key[] = {"auto","break","case","char","const","continue","default","do","double","else","enum","extern","float","for","goto","if","inline","int","long","register","restrict","return","short","signed","sizeof","static","struct","switch","typedef","union","unsigned","void","volatile","while","_Bool","_Complex","_Imaginary",NULL};
-
-
 Status Open_files(Process_Line *Line_Info)
 {
     
@@ -44,26 +39,23 @@ Status implement_lexical(Process_Line *Line_Info)
 
         Line_Info->lines[Line_Info->Line_Count].contents[length-1] = '\0' ;
         
-        char *line_string = Line_Info->lines[Line_Info->Line_Count].contents ;
+        char *token = Line_Info->lines[Line_Info->Line_Count].contents ;
         
         int pos = 0 ;
 
         // Avoid spaces if present 
-        while((line_string[pos] == ' ') && (line_string[pos]!='\0'))  // O(n)
+        while((token[pos] == ' ') && (token[pos]!='\0'))  // O(n)
         {
             pos++;                                    
         }
  
-        if(line_string[pos] == '#')
+        if(token[pos] == '#')
         {
-            if(preprocessor_token(Line_Info,line_string))
-            {
-                printf("Preprocessor directive examined...!\n");
-            }
+            preprocessor_token(Line_Info,token+pos);
         }
         else
         {
-            break ;
+            tokanize_line(Line_Info,token+pos);
         }
         
         Line_Info->Line_Count++; 
@@ -71,21 +63,6 @@ Status implement_lexical(Process_Line *Line_Info)
 
      return SUCCESS ;
 
-}
-
-Token_type preprocessor_token(Process_Line *Line_Info,char *str)
-{
-    
-    char *p1 = str; 
-    char *p2 = str;
-
-    while( *p2 != '\0')
-    {
-        
-    }
-
-    return SUCCESS ;
-    
 }
 
 void Allocate_node(Process_Line *Line_Info,Line_data **temp)
@@ -98,15 +75,15 @@ void Allocate_node(Process_Line *Line_Info,Line_data **temp)
     }
     else
     {
-        *temp = Line_Info->lines[Line_Info->Line_Count].Head ;
+        Line_data *node = Line_Info->lines[Line_Info->Line_Count].Head ;
 
-        while((*temp)->link != NULL)
+        while(node->link != NULL)
         {
-            *temp = (*temp)->link ;
+            node = node->link ;
         }
 
-        (*temp)->link = malloc(sizeof(Line_data)) ;
-        *temp = (*temp)->link ;
+        node->link = malloc(sizeof(Line_data)) ;
+        *temp = node->link ;
         (*temp)->link = NULL ;
 
     }
