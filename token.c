@@ -86,59 +86,7 @@ void preprocessor_token(Process_Line *Line_Info,char *token)
         }
     }
 
-    j = 0;
-
-    if((isalpha(token[i]) || token[i] == '_'))
-    {
-        while(isalnum(token[i]))
-        {
-            buffer[j++] = token[i++];
-        }
-
-        buffer[j] = '\0';
-
-        Allocate_node(Line_Info,&temp);
-        strcpy(temp->token,tokens[IDENTIFIER]);
-        strcpy(temp->lexeme,buffer);  
-
-        if(token[i] == '\0')
-        {
-            return;
-        }
-
-    }
-
-    
-    if(isdigit(token[i]))
-    {
-        while(isdigit(token[i]) || token[i] == '.')
-        {
-            buffer[j++] = token[i++];
-        }
-
-        buffer[j] = '\0';
-
-        Allocate_node(Line_Info,&temp);
-
-        if(strchr(buffer,'.'))
-        {
-            strcpy(temp->token,tokens[FLOAT]);
-            strcpy(temp->lexeme,buffer);
-        }
-        else
-        {
-            strcpy(temp->token,tokens[INTEGER]);
-            strcpy(temp->lexeme,buffer); 
-        }
-
-        if(token[i] == '\0')
-        {
-            return;
-        }
-
-    }
-    
-    
+    tokanize_line(Line_Info,token+i);
 }
 
 void tokanize_line(Process_Line *Line_Info,char *token)
@@ -224,7 +172,7 @@ void tokanize_line(Process_Line *Line_Info,char *token)
             }
 
             j = 0;
-            i++;      // Check if must increment ? 
+         //   i++;      // Check if must increment ? 
             continue;
         }
 
@@ -415,6 +363,7 @@ int is_operator(char buffer[],Process_Line *Line_Info)
             if(buffer[i] == '=')
             {
                 token[j++] = buffer[i++];
+                token[j] = '\0';
 
                 strcpy(temp->token,tokens[OPERATOR]);
                 strcpy(temp->lexeme,token);
@@ -436,6 +385,7 @@ int is_operator(char buffer[],Process_Line *Line_Info)
             if(buffer[i] == '=')
             {
                 token[j++] = buffer[i++];
+                token[j] = '\0';
 
                 strcpy(temp->token,tokens[OPERATOR]);
                 strcpy(temp->lexeme,token);
