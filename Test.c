@@ -11,6 +11,8 @@ int main()
 
     int arr[n];
 
+    int ch = 'A';
+
     printf("\nEnter the array elements : \n");
     for(int i = 0 ; i<n ; i++)
     scanf("%d",&arr[i]);

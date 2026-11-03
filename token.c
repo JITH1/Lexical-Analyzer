@@ -219,6 +219,45 @@ void tokanize_line(Process_Line *Line_Info,char *token)
             continue;
         }
 
+        if(token[i] == '\'')
+        {
+         
+            int closed = 0;
+
+            j = 0;
+            buffer[j++] = token[i++];                          // opening quote
+
+            while(token[i] != '\0' && token[i] != '\'' && j < (int)sizeof(buffer) - 3)
+            { 
+                if(token[i] == '\\' && token[i+1] != '\0')     // escape: take backslash and next char together
+                {
+                   buffer[j++] = token[i++];
+                }
+
+                buffer[j++] = token[i++];
+            }
+
+            if(token[i] == '\'')                               // closing quote
+            {
+                buffer[j++] = token[i++];
+                closed = 1;
+            }
+
+            buffer[j] = '\0';
+
+            // valid forms: 'A' (len 3) or '\n', '\\', '\'', '\0', '\x41' (len >= 4 and starts with backslash)
+            int valid = closed && ((buffer[1] != '\\' && j == 3) || (buffer[1] == '\\' && j >= 4));
+
+            Line_data *temp;
+            Allocate_node(Line_Info,&temp);
+            strcpy(temp->token, valid ? tokens[CHAR_CONSTANT] : tokens[ERROR]);
+            strcpy(temp->lexeme,buffer);
+
+            j = 0;
+            continue;
+
+        }
+
         i++;
     }
 
@@ -400,6 +439,7 @@ int is_operator(char buffer[],Process_Line *Line_Info)
 
             return j;
         }
+
     }
     else if(buffer[0] == '>' || buffer[0] == '<')
     {
